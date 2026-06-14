@@ -1,0 +1,58 @@
+#include <string.h>
+#include <ctype.h>
+#define MAX_INPUT 256
+
+// Function to convert string to lowercase for case-insensitive matching
+void toLowerCase(char *str) {
+    for (int i = 0; str[i]; i++) {
+        str[i] = tolower(str[i]);
+    }
+}
+
+// Function to get response based on user input
+void getResponse(char *input, char *response) {
+    toLowerCase(input);
+
+    if (strstr(input, "hello") || strstr(input, "hi") || strstr(input, "hey")) {
+        strcpy(response, "Hello! How can I help you today?");
+    } else if (strstr(input, "how are you")) {
+        strcpy(response, "I'm doing well, thank you! How about you?");
+    } else if (strstr(input, "what is your name") || strstr(input, "who are you")) {
+        strcpy(response, "I'm a simple AI chatbot created in C. What's your name?");
+    } else if (strstr(input, "bye") || strstr(input, "goodbye")) {
+        strcpy(response, "Goodbye! Have a great day!");
+    } else if (strstr(input, "thank you") || strstr(input, "thanks")) {
+        strcpy(response, "You're welcome!");
+    } else if (strstr(input, "help")) {
+        strcpy(response, "I can respond to greetings, introductions, and simple questions. Try saying 'hello' or 'what is your name'.");
+    } else {
+        strcpy(response, "I'm sorry, I didn't understand that. Can you rephrase?");
+    }
+}
+
+int main() {
+    char input[MAX_INPUT];
+    char response[MAX_INPUT];
+
+    printf("Welcome to the AI Chatbot!\n");
+    printf("Type 'bye' to exit.\n\n");
+
+    while (1) {
+        printf("You: ");
+        fgets(input, MAX_INPUT, stdin);
+
+        // Remove newline character
+        input[strcspn(input, "\n")] = 0;
+
+        // Check for exit condition
+        if (strcmp(input, "bye") == 0 || strcmp(input, "goodbye") == 0) {
+            printf("Chatbot: Goodbye! Have a great day!\n");
+            break;
+        }
+
+        getResponse(input, response);
+        printf("Chatbot: %s\n\n", response);
+    }
+
+    return 0;
+}
